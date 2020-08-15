@@ -60,7 +60,7 @@ export default function CustomizedInputBase() {
   const changeSearch = (event) => {
     setSearch(event.target.value);
   };
-  const toggleFavourite = (imdbID, data) => {
+  const toggleFavourite = (imdbID, data = {}) => {
     if (imdbID in favourites) {
       const newFavourites = Object.assign({}, favourites);
       delete newFavourites[imdbID];
@@ -85,6 +85,14 @@ export default function CustomizedInputBase() {
       });
     }
   };
+  /**
+   * Check if the given imdbId is already added in favourites.
+   */
+  const isFavourite = (imdbID) => {
+    if (imdbID in favourites) return true;
+    else return false;
+  };
+
   const searchMovies = (event) => {
     event.preventDefault();
     const payload = { apikey: OMDB_API_KEY };
@@ -185,6 +193,7 @@ export default function CustomizedInputBase() {
                   type={movie.Type}
                   imdbID={movie.imdbID}
                   addToFavourite={toggleFavourite}
+                  isFavourite={isFavourite}
                 />
               </Grid>
             ))}

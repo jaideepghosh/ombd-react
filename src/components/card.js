@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import Avatar from "@material-ui/core/Avatar";
-import { red } from "@material-ui/core/colors";
+import { red, grey } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,11 +17,67 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  remove_fav: {
+    backgroundColor: grey[500]
   }
 }));
 
 export default function RecipeReviewCard(props) {
   const classes = useStyles();
+
+  const addToFavBtn = (
+    <CardHeader
+      avatar={
+        <Avatar
+          aria-label="Add to favorites"
+          className={classes.avatar}
+          onClick={() => {
+            props.addToFavourite(props.imdbID, {
+              imdbID: props.imdbID,
+              Title: props.title,
+              Year: props.year,
+              Poster: props.poster,
+              Type: props.type
+            });
+          }}
+        >
+          <FavoriteIcon />
+        </Avatar>
+      }
+      title={
+        props.title
+          ? props.title.length > 14
+            ? props.title.slice(0, 12) + "..."
+            : props.title
+          : "Dummy title"
+      }
+      subheader={"Released in " + props.year}
+    />
+  );
+  const removeFromFavBtn = (
+    <CardHeader
+      avatar={
+        <Avatar
+          aria-label="Remove from favorites"
+          className={classes.remove_fav}
+          onClick={() => {
+            props.addToFavourite(props.imdbID);
+          }}
+        >
+          <FavoriteIcon />
+        </Avatar>
+      }
+      title={
+        props.title
+          ? props.title.length > 14
+            ? props.title.slice(0, 12) + "..."
+            : props.title
+          : "Dummy title"
+      }
+      subheader={"Released in " + props.year}
+    />
+  );
 
   return (
     <Card className={classes.root}>
@@ -34,33 +90,7 @@ export default function RecipeReviewCard(props) {
         }
         title={props.title ? props.title.slice(0, 25) : "Dummy title"}
       />
-      <CardHeader
-        avatar={
-          <Avatar
-            aria-label="Add to favorites"
-            className={classes.avatar}
-            onClick={() => {
-              props.addToFavourite(props.imdbID, {
-                imdbID: props.imdbID,
-                Title: props.title,
-                Year: props.year,
-                Poster: props.poster,
-                Type: props.type
-              });
-            }}
-          >
-            <FavoriteIcon />
-          </Avatar>
-        }
-        title={
-          props.title
-            ? props.title.length > 14
-              ? props.title.slice(0, 12) + "..."
-              : props.title
-            : "Dummy title"
-        }
-        subheader={"Released in " + props.year}
-      />
+      {props.isFavourite(props.imdbID) ? removeFromFavBtn : addToFavBtn}
     </Card>
   );
 }
