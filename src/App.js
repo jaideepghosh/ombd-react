@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -59,11 +61,28 @@ export default function CustomizedInputBase() {
     setSearch(event.target.value);
   };
   const toggleFavourite = (imdbID, data) => {
-    if (imdbID in favourites) delete favourites[imdbID];
-    else {
+    if (imdbID in favourites) {
+      const newFavourites = Object.assign({}, favourites);
+      delete newFavourites[imdbID];
+      setFavourites(newFavourites);
+      toast.error("Removed from favourites.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true
+      });
+    } else {
       const newFavourites = Object.assign({}, favourites);
       newFavourites[imdbID] = data;
       setFavourites(newFavourites);
+      toast.success("Added to favourites.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true
+      });
     }
   };
   const searchMovies = (event) => {
@@ -90,6 +109,7 @@ export default function CustomizedInputBase() {
 
   return (
     <div>
+      <ToastContainer />
       <div className={classes.appbar_root}>
         <AppBar position="static">
           <Toolbar>
