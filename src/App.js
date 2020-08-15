@@ -10,6 +10,9 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import RecipeReviewCard from "./components/card";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 const OMDB_API_KEY = process.env.OMDB_KEY ? process.env.OMDB_KEY : "a3136a8c";
 
@@ -21,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center"
     // width: 400
   },
+  appbar_root: {
+    flexGrow: 1
+  },
+  title: {
+    flexGrow: 1
+  },
+
   input: {
     marginLeft: theme.spacing(1),
     flex: 1
@@ -75,6 +85,17 @@ export default function CustomizedInputBase() {
 
   return (
     <div>
+      <div className={classes.appbar_root}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Home
+            </Typography>
+            <Typography variant="h6">Favourites</Typography>
+          </Toolbar>
+        </AppBar>
+      </div>
+
       <Paper component="form" className={classes.root}>
         <InputBase
           className={classes.input}
