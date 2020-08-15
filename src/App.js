@@ -93,10 +93,23 @@ export default function CustomizedInputBase() {
       <div className={classes.appbar_root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
+            <Typography
+              variant="h6"
+              className={classes.title}
+              onClick={() => {
+                setMovies([]);
+              }}
+            >
               Home
             </Typography>
-            <Typography variant="h6">Favourites</Typography>
+            <Typography
+              variant="h6"
+              onClick={() => {
+                setMovies(Object.values(favourites));
+              }}
+            >
+              Favourites
+            </Typography>
           </Toolbar>
         </AppBar>
       </div>
@@ -140,7 +153,6 @@ export default function CustomizedInputBase() {
         </IconButton>
       </Paper>
 
-      {JSON.stringify(favourites)}
       <Grid className={classes.root}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
