@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -9,6 +10,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import RecipeReviewCard from "./components/card";
+
+const OMDB_API_KEY = process.env.OMDB_KEY ? process.env.OMDB_KEY : "a3136a8c";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,10 +37,36 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomizedInputBase() {
   const classes = useStyles();
 
-  const [age, setAge] = React.useState("All");
+  const [filter, setFilter] = React.useState("All");
+  const [search, setSearch] = React.useState("");
+  const [movies, setMovies] = React.useState([]);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const changeFilter = (event) => {
+    setFilter(event.target.value);
+  };
+  const changeSearch = (event) => {
+    setSearch(event.target.value);
+  };
+  const searchMovies = (event) => {
+    event.preventDefault();
+    const payload = { apikey: OMDB_API_KEY };
+    if (search) Object.assign(payload, { s: search });
+    if (filter && filter !== "All") Object.assign(payload, { type: filter });
+    axios
+      .get("http://www.omdbapi.com/", {
+        params: payload
+      })
+      .then((response) => {
+        if (response?.data?.Search) {
+          setMovies(response.data.Search);
+        } else {
+          alert("Something went wrong.");
+        }
+      })
+      .catch((error) => {
+        console.log("Something went wrong. Error", error);
+        alert("Something went wrong.");
+      });
   };
 
   return (
@@ -46,7 +75,11 @@ export default function CustomizedInputBase() {
         <InputBase
           className={classes.input}
           placeholder="Search Movie"
-          inputProps={{ "aria-label": "search google maps" }}
+          inputProps={{ "aria-label": "search movies" }}
+          onChange={(e) => {
+            changeSearch(e);
+          }}
+          calue={search}
         />
 
         <IconButton
@@ -57,13 +90,13 @@ export default function CustomizedInputBase() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
-            onChange={handleChange}
+            value={filter}
+            onChange={changeFilter}
           >
             <MenuItem value="All">All</MenuItem>
-            <MenuItem value="Movies">Movies</MenuItem>
-            <MenuItem value="Series">Series</MenuItem>
-            <MenuItem value="Episodes">Episodes</MenuItem>
+            <MenuItem value="movie">Movies</MenuItem>
+            <MenuItem value="series">Series</MenuItem>
+            <MenuItem value="episode">Episodes</MenuItem>
           </Select>
         </IconButton>
         <Divider className={classes.divider} orientation="vertical" />
@@ -71,23 +104,25 @@ export default function CustomizedInputBase() {
           type="submit"
           className={classes.iconButton}
           aria-label="search"
+          onClick={(e) => searchMovies(e)}
         >
           <SearchIcon />
         </IconButton>
       </Paper>
 
-      <Grid container className={classes.root} spacing={2}>
+      <Grid className={classes.root} spacing={2}>
         <Grid item xs={12}>
-          <Grid container justify="center" spacing="2">
-            <Grid key="1" item>
-              <RecipeReviewCard />
-            </Grid>
-            <Grid key="2" item>
-              <RecipeReviewCard />
-            </Grid>
-            <Grid key="3" item>
-              <RecipeReviewCard />
-            </Grid>
+          <Grid container justify="center" spacing={2}>
+            {movies.map((movie) => (
+              <Grid key={movie.imdbID} item>
+                <RecipeReviewCard
+                  title={movie.Title}
+                  year={movie.Year}
+                  poster={movie.Poster}
+                  type={movie.Type}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
