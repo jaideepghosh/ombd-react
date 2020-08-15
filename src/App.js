@@ -50,7 +50,7 @@ export default function CustomizedInputBase() {
   const [filter, setFilter] = React.useState("All");
   const [search, setSearch] = React.useState("");
   const [movies, setMovies] = React.useState([]);
-  const [favourites, setFavourites] = React.useState([]);
+  const [favourites, setFavourites] = React.useState({});
 
   const changeFilter = (event) => {
     setFilter(event.target.value);
@@ -58,8 +58,13 @@ export default function CustomizedInputBase() {
   const changeSearch = (event) => {
     setSearch(event.target.value);
   };
-  const toggleFavourite = (imdbID) => {
-    if (!favourites.includes(imdbID)) setFavourites([...favourites, imdbID]);
+  const toggleFavourite = (imdbID, data) => {
+    if (imdbID in favourites) delete favourites[imdbID];
+    else {
+      const newFavourites = Object.assign({}, favourites);
+      newFavourites[imdbID] = data;
+      setFavourites(newFavourites);
+    }
   };
   const searchMovies = (event) => {
     event.preventDefault();
@@ -135,7 +140,7 @@ export default function CustomizedInputBase() {
         </IconButton>
       </Paper>
 
-      {favourites}
+      {JSON.stringify(favourites)}
       <Grid className={classes.root}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>

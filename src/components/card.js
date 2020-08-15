@@ -40,7 +40,13 @@ export default function RecipeReviewCard(props) {
             aria-label="Add to favorites"
             className={classes.avatar}
             onClick={() => {
-              props.addToFavourite(props.imdbID);
+              props.addToFavourite(props.imdbID, {
+                imdbID: props.imdbID,
+                Title: props.title,
+                Year: props.year,
+                Poster: props.poster,
+                Type: props.type
+              });
             }}
           >
             <FavoriteIcon />
