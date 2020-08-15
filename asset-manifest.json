@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/ombd-react/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/ombd-react/static/js/main.de433967.chunk.js",
+    "main.js.map": "/ombd-react/static/js/main.de433967.chunk.js.map",
+    "runtime-main.js": "/ombd-react/static/js/runtime-main.b0c1a1fd.js",
+    "runtime-main.js.map": "/ombd-react/static/js/runtime-main.b0c1a1fd.js.map",
+    "static/css/2.d34346ea.chunk.css": "/ombd-react/static/css/2.d34346ea.chunk.css",
+    "static/js/2.b247e447.chunk.js": "/ombd-react/static/js/2.b247e447.chunk.js",
+    "static/js/2.b247e447.chunk.js.map": "/ombd-react/static/js/2.b247e447.chunk.js.map",
+    "index.html": "/ombd-react/index.html",
+    "precache-manifest.f82c483c7244532ec0918cbd5a7c3f64.js": "/ombd-react/precache-manifest.f82c483c7244532ec0918cbd5a7c3f64.js",
+    "service-worker.js": "/ombd-react/service-worker.js",
+    "static/css/2.d34346ea.chunk.css.map": "/ombd-react/static/css/2.d34346ea.chunk.css.map",
+    "static/css/main.5ecd60fb.chunk.css.map": "/ombd-react/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.b247e447.chunk.js.LICENSE.txt": "/ombd-react/static/js/2.b247e447.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b0c1a1fd.js",
+    "static/css/2.d34346ea.chunk.css",
+    "static/js/2.b247e447.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.de433967.chunk.js"
+  ]
+}
