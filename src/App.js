@@ -40,12 +40,16 @@ export default function CustomizedInputBase() {
   const [filter, setFilter] = React.useState("All");
   const [search, setSearch] = React.useState("");
   const [movies, setMovies] = React.useState([]);
+  const [favourites, setFavourites] = React.useState([]);
 
   const changeFilter = (event) => {
     setFilter(event.target.value);
   };
   const changeSearch = (event) => {
     setSearch(event.target.value);
+  };
+  const toggleFavourite = (imdbID) => {
+    if (!favourites.includes(imdbID)) setFavourites([...favourites, imdbID]);
   };
   const searchMovies = (event) => {
     event.preventDefault();
@@ -110,7 +114,8 @@ export default function CustomizedInputBase() {
         </IconButton>
       </Paper>
 
-      <Grid className={classes.root} spacing={2}>
+      {favourites}
+      <Grid className={classes.root}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
             {movies.map((movie) => (
@@ -120,6 +125,8 @@ export default function CustomizedInputBase() {
                   year={movie.Year}
                   poster={movie.Poster}
                   type={movie.Type}
+                  imdbID={movie.imdbID}
+                  addToFavourite={toggleFavourite}
                 />
               </Grid>
             ))}
